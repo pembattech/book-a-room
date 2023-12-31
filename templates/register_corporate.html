@@ -1,0 +1,14 @@
+{% include "nav.html" %}
+
+
+<form action="" class="lr_form" method = 'post'>
+    <h2>Register</h2>
+    {% csrf_token %}
+
+    {{ custom_user_form }}
+
+    <button class="button-style">Submit</button>
+
+    <p>or</p>
+    <a href="{% url 'base:register_user' %}" class="link">Register as User</a>
+</form>

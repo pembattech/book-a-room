@@ -1,0 +1,40 @@
+* {
+    line-height: 1.5px;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+    color: white;
+}
+
+a:hover {
+    color: #dbdbdb;
+}
+
+.position-sticky {
+    position: sticky;
+    top: 0;
+}
+
+.heading {
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.navigation {
+    background-color: #333;
+    color: #fff;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 35px 15px;
+}
+
+.container-wrapper {
+    padding: 0 15px;
+}

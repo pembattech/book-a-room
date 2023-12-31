@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+
+<title>TeamTrack</title>
+
+<style>
+  .LR-form #loginForm .error-message {
+    font-size: 14px;
+  }
+</style>
+
+<div class="main-content">
+  <form method="post" action="">
+
+    {% csrf_token %}
+
+
+    <div class="loginregister-form-container">
+      <div class="heading-content">
+        <div class="heading-style">
+          <p>Login</p>
+        </div>
+      </div>
+      <div class="LR-form">
+        <form id="loginForm" novalidate>
+          <div class="form-group">
+            <input type="text" placeholder="Username" id="username" name="username">
+            <div id="usernameError" class="error-message"></div> <!-- Error message for username -->
+          </div>
+
+          <div class="div-space-top"></div>
+          <div class="form-group">
+            <input type="password" placeholder="Password" id="password" name="password" required>
+            <div id="passwordError" class="error-message"></div> <!-- Error message for password -->
+          </div>
+
+          <div class="div-space-top"></div>
+
+          <input type="submit" placeholder="" id="submitButton" value="Login">
+          <p class="error-message error-report"></p>
+        </form>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

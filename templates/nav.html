@@ -1,0 +1,18 @@
+<div class="navigation position-sticky">
+    <div class="nav-left-side">
+        <a href="{% url 'base:home' %}" class="app-link heading">Book a Room</a>
+    </div>
+
+    <div class="nav-right-side">
+        {% if request.user.is_authenticated %}
+        if {% request.user.is_corporate %}
+            <a href="{% url 'hotel'}">{{ request.user.username }}</a>
+        {% else %}
+            <a href="{% url 'user'}">{{ request.user.username }}</a>
+        <a href="{% url 'base:logout_user' %}">logout</a>
+        {% else %}
+        <a href="{% url 'base:login_user' %}">Login</a>
+        <a href="{% url 'base:register_user' %}">Register</a>
+        {% endif %}
+    </div>
+</div>
