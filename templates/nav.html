@@ -5,14 +5,16 @@
 
     <div class="nav-right-side">
         {% if request.user.is_authenticated %}
-        if {% request.user.is_corporate %}
-            <a href="{% url 'hotel'}">{{ request.user.username }}</a>
+            {% if request.user.is_corporate %}
+                <a href="{% url 'hotel:home' %}">{{ request.user.username }}</a>
+                <a href="{% url 'hotel:list_hotel' %}">List Your Hotel</a>
+            {% else %}
+                <a href="{% url 'user:home' %}">{{ request.user.username }}</a>
+            {% endif %}
+            <a href="{% url 'base:logout_user' %}">Logout</a>
         {% else %}
-            <a href="{% url 'user'}">{{ request.user.username }}</a>
-        <a href="{% url 'base:logout_user' %}">logout</a>
-        {% else %}
-        <a href="{% url 'base:login_user' %}">Login</a>
-        <a href="{% url 'base:register_user' %}">Register</a>
+            <a href="{% url 'base:login_user' %}">Login</a>
+            <a href="{% url 'base:register_user' %}">Register</a>
         {% endif %}
     </div>
 </div>
