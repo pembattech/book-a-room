@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    {{ hotel_form }}
+
+    <!-- Formset management form for handling hotel images -->
+    {{ hotelimg_form.management_form }}
+
+    <div class="hotel_images">
+        <!-- Iterate over each form in the formset and render it -->
+        {% for subform in hotelimg_form.forms %}
+        {{ subform.as_div }}
+        {% endfor %}
+    </div>
+
+    <button type="button" id="add-hotelimage-form">Add Hotel Image</button>
+    <button class="button-style">Submit</button>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const formsetContainer = document.querySelector(".hotel_images");
+        const addButton = document.getElementById("add-hotelimage-form");
+
+        addButton.addEventListener("click", function () {
+            const formCountInput = document.getElementById("id_hotelimage_set-TOTAL_FORMS");
+            const formCount = parseInt(formCountInput.value);
+
+            const newFormHtml = `
+                <div>
+                  <label for="id_hotelimage_set-${formCount}-hotel_images">Image:</label>
+                  <input type="file" name="hotelimage_set-${formCount}-hotel_images" accept="image/*" id="id_hotelimage_set-${formCount}-hotel_images">
+                </div>
+                <div>
+                  <label for="id_hotelimage_set-${formCount}-DELETE">Delete:</label>
+                  <input type="checkbox" name="hotelimage_set-${formCount}-DELETE" id="id_hotelimage_set-${formCount}-DELETE">
+                  <input type="hidden" name="hotelimage_set-${formCount}-id" id="id_hotelimage_set-${formCount}-id">
+                  <input type="hidden" name="hotelimage_set-${formCount}-hotel" value="{{ hotel_form.instance.id }}" id="id_hotelimage_set-${formCount}-hotel">
+                </div>`;
+
+            formsetContainer.insertAdjacentHTML("beforeend", newFormHtml);
+            formCountInput.value = formCount + 1;
+        });
+    });
+
+</script>
+{% endblock content %}
