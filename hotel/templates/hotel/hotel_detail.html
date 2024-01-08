@@ -1,8 +1,56 @@
 {% extends "base.html" %}
 
-
 {% block content %}
 
-{{ hotel }}
+{{ hotel.name }}
+
+{% if not request.user.is_corporate %}
+
+<form action="" method='post' id="reservation-form">
+    {% csrf_token %}
+    {{ reservation_form }}
+
+    <p>Total Cost: <span id="total-cost">{{ hotel.price }}</span></p>
+
+
+    <button class="button-style">Continue Booking</button>
+</form>
+
+{% endif %}
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"
+    integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function () {
+        // Attach the event listener to form inputs
+        $('.input-check_in, .input-check_out').on('input', function () {
+            updateTotalCost();
+        });
+
+        // Function to update the total cost
+        function updateTotalCost() {
+            // Serialize form data
+            var formData = $('#reservation-form').serialize();
+
+            var url = '{% url "hotel:update_total_cost" hotel.slug %}';
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: formData,
+                success: function (data) {
+                    alert(data);
+                    $('#total-cost').text(data.total_cost);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    });
+
+</script>
+
 
 {% endblock content %}

@@ -9,7 +9,7 @@
                 <a href="{% url 'hotel:home' %}">{{ request.user.username }}</a>
                 <a href="{% url 'hotel:list_hotel' %}">List Your Hotel</a>
             {% else %}
-                <a href="{% url 'user:home' %}">{{ request.user.username }}</a>
+                <a href="{% url 'user:dashboard' %}">{{ request.user.username }}</a>
             {% endif %}
             <a href="{% url 'base:logout_user' %}">Logout</a>
         {% else %}
