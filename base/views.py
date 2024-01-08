@@ -7,7 +7,10 @@ from hotel.models import Hotel
 
 # Create your views here.
 def home(request):
-    hotels = Hotel.objects.all()
+    if request.user.is_corporate:
+        hotels = Hotel.objects.filter(hotelier__username = request.user.username)
+    else:
+        hotels = Hotel.objects.all()
 
     context = {"hotels": hotels}
 

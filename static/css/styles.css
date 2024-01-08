@@ -49,16 +49,16 @@ button:disabled {
 }
 
 p {
-    margin: 10px;
+    margin: 10px 0;
 }
 
 ul {
     list-style-type: none;
+    padding: 0;
 }
 
 a {
     text-decoration: none;
-    color: white;
 }
 
 a:hover {
@@ -87,6 +87,14 @@ a:hover {
     flex-direction: row;
     justify-content: space-between;
     padding: 35px 15px;
+}
+
+.navigation a {
+    color: #fff;
+}
+
+.navigation a:hover {
+    color: #dfdfdf;
 }
 
 .container-wrapper {

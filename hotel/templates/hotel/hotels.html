@@ -1,6 +1,13 @@
 <div class="hotel-cards">
-    {% for hotel in hotels %}
+    {% if request.user.is_corporate and hotels|length == 0 %}
+    <div class="heading">
+        <p>You haven't listed any hotels yet.</p>
+    </div>
+    <a href="{% url 'hotel:list_hotel' %}" style="color: #2196F3;">List Your Hotel</a>
+    {% endif %}
+
     <ul>
+        {% for hotel in hotels %}
         <div class="hotel-card">
             <a href="{% url 'hotel:hotel_detail' hotel.slug %}">
                 <li>
@@ -30,7 +37,7 @@
                 </li>
             </a>
         </div>
+        {% endfor %}
     </ul>
-    {% endfor %}
 
 </div>

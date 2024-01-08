@@ -3,7 +3,7 @@
         <a href="{% url 'base:home' %}" class="app-link heading">Book a Room</a>
     </div>
 
-    <div class="nav-right-side">
+    <div class="nav-right-side" style="display: flex; gap:10px;">
         {% if request.user.is_authenticated %}
             {% if request.user.is_corporate %}
                 <a href="{% url 'hotel:home' %}">{{ request.user.username }}</a>
