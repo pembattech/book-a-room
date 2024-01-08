@@ -30,10 +30,6 @@ urlpatterns = [
     re_path(r"^static/(?P<path>.*)$", serve, {"document_root": settings.STATIC_ROOT}),
 ]
 
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-else:
-    urlpatterns += staticfiles_urlpatterns()
 

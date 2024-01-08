@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 
-from .models import Hotel
+from .models import Hotel, HotelImage
 from .forms import HotelForm, HotelImageFormSet, ReservationForm
 
 
@@ -36,11 +36,15 @@ def list_hotel(request):
         "hotel_form": hotel_form,
         "hotelimg_form": hotelimg_form,
     }
-    return render(request, "hotel/lst_hotel.html", context)
+    return render(request, "hotel/listing_hotel.html", context)
 
 
 def hotel_detail(request, slug):
     hotel = get_object_or_404(Hotel, slug=slug)
+    hotelimage_instance = HotelImage.objects.filter(hotel__slug = slug)
+    
+    image_urls = [image.hotel_images for image in hotelimage_instance]
+    print(image_urls)
 
     if request.method == "POST":
         reservation_form = ReservationForm(request.POST)
@@ -55,7 +59,7 @@ def hotel_detail(request, slug):
     else:
         reservation_form = ReservationForm()
 
-    context = {"hotel": hotel, "reservation_form": reservation_form}
+    context = {"hotel": hotel, "reservation_form": reservation_form, 'image_urls': image_urls}
 
     return render(request, "hotel/hotel_detail.html", context)
 

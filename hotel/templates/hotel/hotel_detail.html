@@ -1,22 +1,72 @@
 {% extends "base.html" %}
 
+
+{% block title %}
+{{ hotel.name }} -
+{% endblock title %}
+
+
 {% block content %}
 
-{{ hotel.name }}
+<div class="hotel-detail-wrapper">
 
-{% if not request.user.is_corporate %}
+    <div class="hotel-pics">
+        {% for img_url in image_urls %}
 
-<form action="" method='post' id="reservation-form">
-    {% csrf_token %}
-    {{ reservation_form }}
+        <img src="{{ img_url.url }}" alt="{{ hotel.name }}">
 
-    <p>Total Cost: <span id="total-cost">{{ hotel.price }}</span></p>
+        {% endfor %}
 
+    </div>
 
-    <button class="button-style">Continue Booking</button>
-</form>
+    <div class="div-flex">
 
-{% endif %}
+        <div class="hotel-detail">
+
+            <p class="heading">
+                {{ hotel.name }}
+            </p>
+            <p class="hotel-info">
+                {{ hotel.address }}
+            <p class="hotel-info description">
+                {{ hotel.description }}
+            </p>
+
+        </div>
+        {% if not request.user.is_corporate %}
+
+        <form action="" method='post' id="reservation-form">
+            {% csrf_token %}
+            
+            <div class="form-div">
+                <p class="hotel-info price">
+                    <span>
+                        NPR
+                        {{ hotel.price }}
+                    </span>
+                </p>
+
+                {{ reservation_form.as_p }}
+
+                <hr>
+
+                <div class="div-flex">
+                    <div>
+                        <p>Total Price</p>
+                    </div>
+                    <div>
+                        <p id="total-cost">{{ hotel.price }}</p>
+                    </div>
+                </div>
+
+                <button class="button-style">Continue Booking</button>
+            </div>
+        </form>
+
+        {% endif %}
+
+    </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"
     integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
@@ -40,7 +90,6 @@
                 url: url,
                 data: formData,
                 success: function (data) {
-                    alert(data);
                     $('#total-cost').text(data.total_cost);
                 },
                 error: function (error) {

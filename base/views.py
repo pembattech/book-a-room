@@ -2,11 +2,16 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 
 from .forms import CustomUserForm
+from hotel.models import Hotel
 
 
 # Create your views here.
 def home(request):
-    return render(request, "base/index.html")
+    hotels = Hotel.objects.all()
+
+    context = {"hotels": hotels}
+
+    return render(request, "base/index.html", context)
 
 
 # Create your views here.

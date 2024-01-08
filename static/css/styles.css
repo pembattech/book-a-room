@@ -1,10 +1,59 @@
 * {
-    line-height: 1.5px;
+    font-family: 'Roboto', sans-serif;
+    color: #333;
 }
 
 body {
     margin: 0;
     padding: 0;
+}
+
+input,
+select,
+textarea,
+button {
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+/* Apply specific styles for buttons */
+button {
+    background-color: #4CAF50;
+    color: #fff;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+select {
+    width: 100%;
+}
+
+textarea {
+    width: 100%;
+    resize: vertical;
+}
+
+input:disabled,
+select:disabled,
+textarea:disabled,
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+p {
+    margin: 10px;
+}
+
+ul {
+    list-style-type: none;
 }
 
 a {
@@ -14,6 +63,11 @@ a {
 
 a:hover {
     color: #dbdbdb;
+}
+
+.div-flex {
+    display: flex;
+    gap: 20px;
 }
 
 .position-sticky {
@@ -36,5 +90,76 @@ a:hover {
 }
 
 .container-wrapper {
-    padding: 0 15px;
+    padding: 10px 15px;
+    height: 100vh;
+}
+
+/* hotels */
+
+.hotel-cards .hotel-card:hover {
+    background-color: #f1f1f1;
+}
+
+.hotel-info {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.hotel-info.price,
+.hotel-info.price span {
+    font-size: 18px;
+    font-weight: 800;
+    color: #2196F3;
+}
+
+.hotel-info.description {
+    font-size: 16px;
+}
+
+.hotel-card .hotel-pic img {
+    width: 400px;
+}
+
+/* hotel details */
+.hotel-detail-wrapper .hotel-pics img {
+    width: 600px;
+}
+
+.hotel-detail-wrapper .hotel-pics {
+    display: flex;
+    overflow-x: auto;
+    gap: 5px;
+}
+
+.hotel-detail-wrapper .heading {
+    font-size: 26px;
+}
+
+.hotel-detail-wrapper .hotel-detail {
+    flex: 2;
+}
+
+#reservation-form {
+    flex: 0.5;
+    padding: 15px 0;
+}
+
+.form-div {
+    padding: 10px;
+    border: 1px solid #bbbbbb;
+    border-radius: 5px;
+
+}
+
+#reservation-form .hotel-info.price,
+#reservation-form .hotel-info.price span {
+    color: #333;
+}
+
+#reservation-form #total-cost{
+    font-weight: 900;
+}
+
+#reservation-form .button-style {
+    width: 100%;
 }
