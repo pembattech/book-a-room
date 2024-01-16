@@ -1,2 +1,3 @@
 # book-a-room
 
+The "Book a Room" project is a web application designed to facilitate hotel reservations. Users can register accounts, including the option to sign up as corporate users, leveraging a custom user model extending Django's AbstractUser. The core entities of the system are Hotels, which are managed by hoteliers (authenticated users), and Reservations, which represent bookings made by users for specific hotel stays.
