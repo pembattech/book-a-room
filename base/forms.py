@@ -8,3 +8,10 @@ class CustomUserForm(UserCreationForm):
         model = CustomUser
         fields = ['email', 'username', 'password1', 'password2']
 
+        widgets = {
+            'email': forms.EmailInput(attrs={'class': 'your-email-class'}),
+            'username': forms.TextInput(attrs={'class': 'your-username-class'}),
+            'password1': forms.PasswordInput(attrs={'class': 'your-password-class'}),
+            'password2': forms.PasswordInput(attrs={'class': 'your-password-confirm-class'}),
+        }
+

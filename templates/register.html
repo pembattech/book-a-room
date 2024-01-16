@@ -1,12 +1,19 @@
-{% include "nav.html" %}
-<form action="" class="lr_form" method = 'post'>
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<form action="" class="lr_form" method='post'>
     <h2>Register</h2>
     {% csrf_token %}
 
     {{ custom_user_form }}
 
     <button class="button-style">Submit</button>
-
-    <p>or</p>
+    <br>
+    <strong>OR</strong>
+    <br>
     <a href="{% url 'base:register_corporate' %}" class="link">Register as Corporate</a>
 </form>
+
+{% endblock content %}
