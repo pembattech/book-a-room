@@ -7,7 +7,7 @@ from hotel.models import Hotel
 
 # Create your views here.
 def home(request):
-    if request.user.is_corporate:
+    if request.user.is_authenticated and request.user.is_corporate:
         hotels = Hotel.objects.filter(hotelier__username = request.user.username)
     else:
         hotels = Hotel.objects.all()

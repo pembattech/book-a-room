@@ -1,7 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 from .models import Hotel, HotelImage
 from .forms import HotelForm, HotelImageFormSet, ReservationForm
@@ -63,7 +64,7 @@ def hotel_detail(request, slug):
 
     return render(request, "hotel/hotel_detail.html", context)
 
-@csrf_exempt  # For simplicity; consider using a proper CSRF protection method
+@csrf_exempt
 @require_POST
 def update_total_cost(request, slug):
     form = ReservationForm(request.POST)
@@ -78,8 +79,42 @@ def update_total_cost(request, slug):
         
         # Store the total cost in the user's session
         request.session['total_cost'] = tc
-        
 
         return JsonResponse({"total_cost": tc})
     else:
         return JsonResponse({"error": "Invalid form data"}, status=400)
+
+
+def hotel_dashboard(request):
+    if request.user.is_corporate:
+        hotels = Hotel.objects.filter(hotelier__username = request.user.username)
+    
+        context = {"hotels": hotels}
+        return render(request, "hotel/hotel_dashboard.html", context)
+
+@login_required(login_url='login')
+def edit_hotel(request, slug):
+    hotel = get_object_or_404(Hotel, slug=slug)
+
+    hotel_form = HotelForm(request.POST or None, instance=hotel)
+
+    if hotel_form.is_valid():
+        hotel_form.save()
+        
+        return redirect('hotel:hotel_detail', hotel.slug)
+    
+    context = {
+        'hotel_form': hotel_form
+    }
+    
+    return render(request, 'hotel/edit_hotel.html', context)
+
+@login_required(login_url='login')
+def delete_hotel(request, slug):
+    hotel = get_object_or_404(Hotel, slug=slug)
+
+    if request.user.is_corporate:
+        hotel.delete()
+
+        return redirect("hotel:dashboard")
+    
