@@ -1,8 +1,9 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponse
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from datetime import date, timedelta
 
 from .models import Hotel, HotelImage
 from .forms import HotelForm, HotelImageFormSet, ReservationForm
@@ -29,6 +30,8 @@ def list_hotel(request):
             hotelimg_form.instance = hotel
             hotelimg_form.save()
 
+            return redirect('hotel:hotel_detail', hotel.slug)
+
     else:
         hotel_form = HotelForm()
         hotelimg_form = HotelImageFormSet(instance=None)
@@ -45,17 +48,26 @@ def hotel_detail(request, slug):
     hotelimage_instance = HotelImage.objects.filter(hotel__slug = slug)
     
     image_urls = [image.hotel_images for image in hotelimage_instance]
-    print(image_urls)
+
+    TC_SESSION = f'total_cost_{request.user.username}_{slug}'
 
     if request.method == "POST":
         reservation_form = ReservationForm(request.POST)
 
         if reservation_form.is_valid():
-            total_cost = request.session.get(f'total_cost_{request.user.username}_{slug}', 0)
-            print(total_cost)
             
-               # Clear the 'total_cost' key from the session
-            request.session.pop('total_cost', None)
+            total_cost = request.session.get(TC_SESSION, 0)
+
+            check_out_date_data = reservation_form.cleaned_data['check_out_date']
+
+            if total_cost == 0:
+                if check_out_date_data == date.today() or check_out_date_data == date.today() + timedelta(days=1):
+                    total_cost = hotel.price
+            
+            # Clear the 'TC_SESSION' key from the session
+            request.session.pop(TC_SESSION, None)
+            
+            return HttpResponse(total_cost)
 
     else:
         reservation_form = ReservationForm()
@@ -69,16 +81,16 @@ def hotel_detail(request, slug):
 def update_total_cost(request, slug):
     form = ReservationForm(request.POST)
 
-    print(form)
-
     if form.is_valid():
         reservation = form.save(commit=False)
         reservation.hotel = Hotel.objects.get(slug=slug)
         
         tc = float(reservation.calculate_total_cost())
         
+        TC_SESSION = f'total_cost_{request.user.username}_{slug}'
+        
         # Store the total cost in the user's session
-        request.session['total_cost'] = tc
+        request.session[TC_SESSION] = tc
 
         return JsonResponse({"total_cost": tc})
     else:

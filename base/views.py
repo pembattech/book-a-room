@@ -27,8 +27,11 @@ def register(request, user_type):
 
             if user_type == "corporate":
                 custom_user.is_corporate = True
+                print(user_type)
 
             custom_user_form.save()
+            
+            return redirect('base:login')
 
     custom_user_form = CustomUserForm()
 
