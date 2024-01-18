@@ -4,7 +4,7 @@
             <a href="{% url 'base:home' %}" class="app-link heading">Book a Room</a>
         </div>
 
-        <div class="nav-right-side" style="display: flex; gap:10px;">
+        <div class="nav-right-side" style="display: flex; gap:10px; align-items:center;">
             {% if request.user.is_authenticated %}
             {% if request.user.is_corporate %}
             <a href="{% url 'hotel:dashboard' %}">{{ request.user.username }}</a>

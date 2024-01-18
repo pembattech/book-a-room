@@ -37,27 +37,33 @@
 
         <form action="" method='post' id="reservation-form">
             {% csrf_token %}
-            
+
             <div class="form-div">
-                <p class="hotel-info price">
-                    <span>
-                        NPR
-                        {{ hotel.price }}
-                    </span>
-                </p>
+                <div class="price-wrapper">
+                    <p class="hotel-info price">
+                        <span>
+                            NPR
+                            {{ hotel.price }}
+                        </span>
+                    </p>
+                    <p style="margin: 0; font-size: 13px; color:#6d787d;">Inclusive of all taxes</p>
+                </div>
 
                 {{ reservation_form.as_p }}
 
-                <hr>
+                <div class="custom-hr"></div>
 
-                <div class="div-flex">
+                <div class="div-flex total-cost-wrapper">
                     <div>
-                        <p>Total Price</p>
+                        <p style="margin-bottom: 0;">Total Price</p>
+                        <span style="font-size: 13px; color:#6d787d;">(incl. of all taxes)</span>
                     </div>
                     <div>
                         <p id="total-cost">{{ hotel.price }}</p>
                     </div>
                 </div>
+
+                <br>
 
                 <button class="button-style">Continue Booking</button>
             </div>

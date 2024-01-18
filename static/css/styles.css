@@ -85,6 +85,7 @@ a:hover {
 }
 
 .heading {
+    color: #111;
     font-size: 20px;
     font-weight: 900;
 }
@@ -95,6 +96,7 @@ a:hover {
     justify-content: space-between;
     padding: 18px 30px;
     background-color: #fff;
+    text-align: center;
 }
 
 .navigation a {
@@ -111,6 +113,10 @@ a:hover {
 }
 
 /* hotels */
+
+.hotel-card .hotel-detail {
+    padding: 0 10px;
+}
 
 .hotel-cards .hotel-card:hover {
     background-color: #f1f1f1;
@@ -187,16 +193,23 @@ a:hover {
 }
 
 .form-div {
-    padding: 10px;
+    padding: 10px 20px;
     border: 1px solid #bbbbbb;
     border-radius: 5px;
-    width: 315px;
+    width: 262px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
 }
 
 #reservation-form .hotel-info.price,
 #reservation-form .hotel-info.price span {
     color: #333;
+    font-size: 24px;
+    margin-bottom: 0;
+}
+
+.div-flex.total-cost-wrapper {
+    justify-content: space-between;
 }
 
 #reservation-form #total-cost {
