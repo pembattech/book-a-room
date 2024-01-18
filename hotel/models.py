@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from decimal import Decimal
+from django_summernote.fields import SummernoteTextField
 
 from base.helper import generate_slug
 
@@ -12,7 +13,7 @@ class Hotel(models.Model):
     )
     name = models.CharField(max_length=255)
     address = models.CharField(max_length=255)
-    description = models.TextField(null=True)
+    description = SummernoteTextField()
     price = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     slug = models.SlugField(max_length=255, null=True, blank=True)
 

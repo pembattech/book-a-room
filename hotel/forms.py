@@ -1,5 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django_summernote.widgets import SummernoteWidget
 from datetime import *
 
 from .models import Hotel, HotelImage, Reservation
@@ -12,7 +13,7 @@ class HotelForm(forms.ModelForm):
         widgets = {
             "name": forms.TextInput(attrs={"class": "input-style"}),
             "address": forms.TextInput(attrs={"class": "input-style"}),
-            "description": forms.Textarea(attrs={"class": "input-style"}),
+            "description": SummernoteWidget(),
             "price": forms.TextInput(
                 attrs={"class": "input-style", "type": "number", "step": "0.01"}
             ),

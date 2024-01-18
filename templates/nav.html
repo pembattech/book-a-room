@@ -1,20 +1,25 @@
-<div class="navigation position-sticky">
-    <div class="nav-left-side">
-        <a href="{% url 'base:home' %}" class="app-link heading">Book a Room</a>
-    </div>
+<div class="navi position-sticky" style="z-index: 9;">
+    <div class="navigation">
+        <div class="nav-left-side">
+            <a href="{% url 'base:home' %}" class="app-link heading">Book a Room</a>
+        </div>
 
-    <div class="nav-right-side" style="display: flex; gap:10px;">
-        {% if request.user.is_authenticated %}
+        <div class="nav-right-side" style="display: flex; gap:10px;">
+            {% if request.user.is_authenticated %}
             {% if request.user.is_corporate %}
-                <a href="{% url 'hotel:dashboard' %}">{{ request.user.username }}</a>
-                <a href="{% url 'hotel:list_hotel' %}">List Your Hotel</a>
+            <a href="{% url 'hotel:dashboard' %}">{{ request.user.username }}</a>
+            <a href="{% url 'hotel:list_hotel' %}">List Your Hotel</a>
             {% else %}
-                <a href="{% url 'user:dashboard' %}">{{ request.user.username }}</a>
+            <a href="{% url 'user:dashboard' %}">{{ request.user.username }}</a>
             {% endif %}
             <a href="{% url 'base:logout_user' %}">Logout</a>
-        {% else %}
+            {% else %}
             <a href="{% url 'base:login_user' %}">Login</a>
             <a href="{% url 'base:register_user' %}">Register</a>
-        {% endif %}
+            {% endif %}
+        </div>
+
+
     </div>
+    <div class="custom-hr"></div>
 </div>

@@ -28,6 +28,7 @@ urlpatterns = [
     path('user/', include('user.urls')),
     re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT}),
     re_path(r"^static/(?P<path>.*)$", serve, {"document_root": settings.STATIC_ROOT}),
+    path('summernote/', include('django_summernote.urls')),
 ]
 
 if settings.DEBUG:

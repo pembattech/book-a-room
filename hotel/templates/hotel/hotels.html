@@ -6,33 +6,30 @@
     <a href="{% url 'hotel:list_hotel' %}" style="color: #2196F3;">List Your Hotel</a>
     {% endif %}
 
-    <ul>
+    <ul class="div-flex">
         {% for hotel in hotels %}
         <div class="hotel-card">
             <a href="{% url 'hotel:hotel_detail' hotel.slug %}">
                 <li>
-                    <div class="div-flex">
+                    <div class="hotel-pic">
+                        <img class="responsive-image" src="{{ hotel.hotelimage_set.all.first.hotel_images.url }}" alt="{{ hotel.name }}">
+                    </div>
 
-                        <div class="hotel-pic">
-                            <img src="{{ hotel.hotelimage_set.all.first.hotel_images.url }}" alt="{{ hotel.name }}">
-                        </div>
+                    <div class="hotel-detail">
 
-                        <div class="hotel-detail">
+                        <p class="heading">
+                            {{ hotel.name }}
+                        </p>
+                        <p class="hotel-info">
+                            {{ hotel.address }}
+                        </p>
+                        <p class="hotel-info price">
+                            <span>
+                                NPR
+                                {{ hotel.price }}
+                            </span>
+                        </p>
 
-                            <p class="heading">
-                                {{ hotel.name }}
-                            </p>
-                            <p class="hotel-info">
-                                {{ hotel.address }}
-                            </p>
-                            <p class="hotel-info price">
-                                <span>
-                                    NPR
-                                    {{ hotel.price }}
-                                </span>
-                            </p>
-
-                        </div>
                     </div>
                 </li>
             </a>
