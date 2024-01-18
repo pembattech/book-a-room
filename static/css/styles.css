@@ -67,6 +67,22 @@ a:hover {
     color: #dbdbdb;
 }
 
+.search-bar {
+    width: 300px;
+    padding: 5px;
+    margin: 0;
+    border: 1px solid rgba(49, 49, 49, 0.5);
+    border-radius: 5px;
+    outline: none;
+    transition: width 0.5s ease;
+}
+
+.search-bar:focus {
+    width: 400px;
+    border-color: #666;
+}
+
+
 .custom-hr {
     height: 1px;
     background-color: rgba(49, 49, 49, 0.5);
@@ -118,13 +134,11 @@ a:hover {
     padding: 0 10px;
 }
 
-.hotel-cards .hotel-card:hover {
-    background-color: #f1f1f1;
-}
-
 .hotel-info {
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 15px;
+    font-weight: 550;
+    padding: 0;
+    margin: 0;
 }
 
 .hotel-info.price,
@@ -181,6 +195,7 @@ a:hover {
 
 .hotel-detail-wrapper .heading {
     font-size: 32px;
+    margin-bottom: 0;
 }
 
 .hotel-detail-wrapper .hotel-detail {

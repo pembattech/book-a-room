@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+Search Results for '{{ query }}'
+{% endblock %}
+
+{% block content %}
+
+<h1>Search Results for "{{ query }}"</h1>
+
+
+
+<div class="hotel-cards">
+    {% if hotels %}
+
+    <ul class="div-flex">
+        {% for hotel in hotels %}
+        <div class="hotel-card">
+            <a href="{% url 'hotel:hotel_detail' hotel.slug %}">
+                <li>
+                    <div class="hotel-pic">
+                        <img class="responsive-image" src="{{ hotel.hotelimage_set.all.first.hotel_images.url }}"
+                            alt="{{ hotel.name }}">
+                    </div>
+
+                    <div class="hotel-detail">
+
+                        <p class="heading">
+                            {{ hotel.name }}
+                        </p>
+                        <p class="hotel-info">
+                            {{ hotel.address }}
+                        </p>
+                        <p class="hotel-info price">
+                            <span>
+                                NPR
+                                {{ hotel.price }}
+                            </span>
+                        </p>
+
+                    </div>
+                </li>
+            </a>
+        </div>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No hotels found for "{{ query }}".</p>
+    {% endif %}
+
+</div>
+{% endblock %}

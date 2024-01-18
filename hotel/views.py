@@ -4,6 +4,7 @@ from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from datetime import date, timedelta
+from django.db.models import Q
 
 from .models import Hotel, HotelImage
 from .forms import HotelForm, HotelImageFormSet, ReservationForm
@@ -129,4 +130,16 @@ def delete_hotel(request, slug):
         hotel.delete()
 
         return redirect("hotel:dashboard")
-    
+
+def search_hotel(request):
+    query = request.GET.get('query', '')
+
+    # Search for hotels based on the name, address, or description containing the query
+    hotels = Hotel.objects.filter(Q(name__icontains=query) | Q(address__icontains=query) | Q(description__icontains=query))
+
+    context = {
+        'hotels': hotels,
+        'query': query,
+    }
+
+    return render(request, 'hotel/search_result.html', context)
