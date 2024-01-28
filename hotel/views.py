@@ -5,6 +5,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from datetime import date, timedelta
 from django.db.models import Q
+from django.utils import timezone
 
 from .models import Hotel, HotelImage
 from .forms import HotelForm, HotelImageFormSet, ReservationForm
@@ -93,7 +94,7 @@ def update_total_cost(request, slug):
         # Store the total cost in the user's session
         request.session[TC_SESSION] = tc
 
-        return JsonResponse({"total_cost": tc})
+        return JsonResponse({"total_cost": '{:.2f}'.format(tc)})
     else:
         return JsonResponse({"error": "Invalid form data"}, status=400)
 

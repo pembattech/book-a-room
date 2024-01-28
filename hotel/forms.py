@@ -59,16 +59,6 @@ class ReservationForm(forms.ModelForm):
             ),
         }
 
-    def __init__(self, *args, **kwargs):
-        super(ReservationForm, self).__init__(*args, **kwargs)
-
-        # Set default values for check-in and check-out dates
-        today = date.today()
-        tomorrow = today + timedelta(days=1)
-
-        self.fields["check_in_date"].initial = today
-        self.fields["check_out_date"].initial = tomorrow
-
     def clean_check_in_date(self):
         check_in_date = self.cleaned_data.get("check_in_date")
 

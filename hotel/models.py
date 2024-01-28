@@ -48,4 +48,6 @@ class Reservation(models.Model):
     def calculate_total_cost(self):
         nights = (self.check_out_date - self.check_in_date).days
 
+        print(self.hotel.price, nights,  "==" , self.hotel.price * Decimal(nights))
+
         return self.hotel.price * Decimal(nights)

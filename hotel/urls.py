@@ -13,4 +13,5 @@ urlpatterns = [
     path('list-hotel', list_hotel, name='list_hotel'),
     path('hotel-detail/<slug>', hotel_detail, name = 'hotel_detail'),
     path('update-tc/<slug>', update_total_cost, name = 'update_total_cost'),
+    
 ]
