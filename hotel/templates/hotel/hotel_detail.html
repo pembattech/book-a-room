@@ -58,10 +58,14 @@
                         <p style="margin-bottom: 0;">Total price</p>
                         <span style="font-size: 13px; color:#6d787d;">(incl. of all taxes)</span>
                     </div>
+
                     <div>
-                        <p id="loading-spinner" style="display: none;">
-                            Loading...
-                        </p>
+
+                        <div class="threedotloader" id="loading-spinner" style="display: none;">
+                            <div class='dot'></div>
+                            <div class='dot'></div>
+                            <div class='dot'></div>
+                        </div>
 
                         <p id="total-cost" style="display: block;">{{ hotel.price }}</p>
                     </div>
@@ -96,11 +100,11 @@
     $(document).ready(function () {
         // Attach the event listener to form inputs
         $('.input-check_in, .input-check_out').on('change', function () {
-            // Disable the submit button
-            $('button.button-style').prop('disabled', true);
-
             // Show loading animation
             $('#loading-spinner').show();
+
+            // Disable the submit button
+            $('button.button-style').prop('disabled', true);
 
             $('#total-cost').hide();
 
@@ -121,16 +125,14 @@
                 url: url,
                 data: formData,
                 success: function (data) {
-                    console.log(data);
                     // Hide loading animation
                     $('#loading-spinner').hide();
-
+                    
                     $('#total-cost').show();
-
+                    
                     $('#total-cost').text(data.total_cost);
-
+                    
                     $('button.button-style').prop('disabled', false);
-
 
                 },
                 error: function (error) {

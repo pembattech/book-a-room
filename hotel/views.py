@@ -32,7 +32,7 @@ def list_hotel(request):
             hotelimg_form.instance = hotel
             hotelimg_form.save()
 
-            return redirect('hotel:hotel_detail', hotel.slug)
+            return redirect("hotel:hotel_detail", hotel.slug)
 
     else:
         hotel_form = HotelForm()
@@ -47,36 +47,43 @@ def list_hotel(request):
 
 def hotel_detail(request, slug):
     hotel = get_object_or_404(Hotel, slug=slug)
-    hotelimage_instance = HotelImage.objects.filter(hotel__slug = slug)
-    
+    hotelimage_instance = HotelImage.objects.filter(hotel__slug=slug)
+
     image_urls = [image.hotel_images for image in hotelimage_instance]
 
-    TC_SESSION = f'total_cost_{request.user.username}_{slug}'
+    TC_SESSION = f"total_cost_{request.user.username}_{slug}"
 
     if request.method == "POST":
         reservation_form = ReservationForm(request.POST)
 
         if reservation_form.is_valid():
-            
             total_cost = request.session.get(TC_SESSION, 0)
 
-            check_out_date_data = reservation_form.cleaned_data['check_out_date']
+            check_out_date_data = reservation_form.cleaned_data["check_out_date"]
 
             if total_cost == 0:
-                if check_out_date_data == date.today() or check_out_date_data == date.today() + timedelta(days=1):
+                if (
+                    check_out_date_data == date.today()
+                    or check_out_date_data == date.today() + timedelta(days=1)
+                ):
                     total_cost = hotel.price
-            
+
             # Clear the 'TC_SESSION' key from the session
             request.session.pop(TC_SESSION, None)
-            
+
             return HttpResponse(total_cost)
 
     else:
         reservation_form = ReservationForm()
 
-    context = {"hotel": hotel, "reservation_form": reservation_form, 'image_urls': image_urls}
+    context = {
+        "hotel": hotel,
+        "reservation_form": reservation_form,
+        "image_urls": image_urls,
+    }
 
     return render(request, "hotel/hotel_detail.html", context)
+
 
 @csrf_exempt
 @require_POST
@@ -86,44 +93,55 @@ def update_total_cost(request, slug):
     if form.is_valid():
         reservation = form.save(commit=False)
         reservation.hotel = Hotel.objects.get(slug=slug)
-        
+
         tc = float(reservation.calculate_total_cost())
-        
-        TC_SESSION = f'total_cost_{request.user.username}_{slug}'
-        
+
+        TC_SESSION = f"total_cost_{request.user.username}_{slug}"
+
         # Store the total cost in the user's session
         request.session[TC_SESSION] = tc
 
-        return JsonResponse({"total_cost": '{:.2f}'.format(tc)})
+        return JsonResponse({"total_cost": "{:.2f}".format(tc)})
     else:
         return JsonResponse({"error": "Invalid form data"}, status=400)
 
 
 def hotel_dashboard(request):
     if request.user.is_corporate:
-        hotels = Hotel.objects.filter(hotelier__username = request.user.username)
-    
+        hotels = Hotel.objects.filter(hotelier__username=request.user.username)
+
         context = {"hotels": hotels}
         return render(request, "hotel/hotel_dashboard.html", context)
 
-@login_required(login_url='login')
+
+@login_required(login_url="login")
 def edit_hotel(request, slug):
     hotel = get_object_or_404(Hotel, slug=slug)
 
-    hotel_form = HotelForm(request.POST or None, instance=hotel)
+    if request.method == "GET":
+        hotel_form = HotelForm(instance=hotel)
+        hotelimg_form = HotelImageFormSet(instance=hotel)
+    else:
+        hotel_form = HotelForm(request.POST, instance=hotel)
+        hotelimg_form = HotelImageFormSet(request.POST, request.FILES, instance=hotel)
 
-    if hotel_form.is_valid():
-        hotel_form.save()
-        
-        return redirect('hotel:hotel_detail', hotel.slug)
-    
+        if hotel_form.is_valid() and hotelimg_form.is_valid():
+            hotel = hotel_form.save(commit=False)
+            hotel.save()
+            hotelimg_form.save()
+            return redirect("hotel:hotel_detail", hotel.slug)
+        else:
+            # Handle formset validation errors if needed
+            pass
+
     context = {
-        'hotel_form': hotel_form
+        "hotel_form": hotel_form,
+        "hotelimg_form": hotelimg_form,
     }
-    
-    return render(request, 'hotel/edit_hotel.html', context)
 
-@login_required(login_url='login')
+    return render(request, "hotel/edit_hotel.html", context)
+
+@login_required(login_url="login")
 def delete_hotel(request, slug):
     hotel = get_object_or_404(Hotel, slug=slug)
 
@@ -132,15 +150,20 @@ def delete_hotel(request, slug):
 
         return redirect("hotel:dashboard")
 
+
 def search_hotel(request):
-    query = request.GET.get('query', '')
+    query = request.GET.get("query", "")
 
     # Search for hotels based on the name, address, or description containing the query
-    hotels = Hotel.objects.filter(Q(name__icontains=query) | Q(address__icontains=query) | Q(description__icontains=query))
+    hotels = Hotel.objects.filter(
+        Q(name__icontains=query)
+        | Q(address__icontains=query)
+        | Q(description__icontains=query)
+    )
 
     context = {
-        'hotels': hotels,
-        'query': query,
+        "hotels": hotels,
+        "query": query,
     }
 
-    return render(request, 'hotel/search_result.html', context)
+    return render(request, "hotel/search_result.html", context)
