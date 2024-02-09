@@ -68,10 +68,10 @@ def hotel_detail(request, slug):
                 ):
                     total_cost = hotel.price
 
-            # Clear the 'TC_SESSION' key from the session
-            request.session.pop(TC_SESSION, None)
+                    # Store the total cost in the user's session
+                    request.session[TC_SESSION] = total_cost
 
-            return HttpResponse(total_cost)
+            return redirect('payment_gateway:create-checkout-session', hotel.slug)
 
     else:
         reservation_form = ReservationForm()

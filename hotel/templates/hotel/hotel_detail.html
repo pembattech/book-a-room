@@ -35,7 +35,8 @@
         </div>
         {% if not request.user.is_corporate %}
 
-        <form action="" method='post' id="reservation-form">
+        <form action="" method='post'
+            id="reservation-form">
             {% csrf_token %}
 
             <div class="form-div position-sticky" style="top: 80px;">
@@ -127,11 +128,11 @@
                 success: function (data) {
                     // Hide loading animation
                     $('#loading-spinner').hide();
-                    
+
                     $('#total-cost').show();
-                    
+
                     $('#total-cost').text(data.total_cost);
-                    
+
                     $('button.button-style').prop('disabled', false);
 
                 },
