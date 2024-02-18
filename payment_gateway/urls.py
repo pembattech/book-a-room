@@ -6,10 +6,10 @@ app_name = "payment_gateway"
 
 urlpatterns = [
     path(
-        "create-checkout-session/<slug>/",
+        "create-checkout-session/<int:reservation_pk>",
         create_stripe_checkout_session,
-        name="create-checkout-session",
+        name="create-checkout-session-pk",
     ),
-    path("success/", payment_success, name="payment_success"),
-    path("cancel/", payment_cancel, name="payment_cancel"),
+    path("success/<int:reservation_pk>", payment_success, name="payment_success"),
+    path("cancel/<int:reservation_pk>", payment_cancel, name="payment_cancel"),
 ]

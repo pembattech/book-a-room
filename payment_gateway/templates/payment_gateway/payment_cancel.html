@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <p>We regret to inform you that your reservation at {{ hotel_reserve_info.hotel_name }} Hotel has been canceled. Your reservation was originally scheduled for {{ hotel_reserve_info.checkin }} to {{ hotel_reserve_info.checkout }}. We apologize for any inconvenience this may cause.
+
+        If you have any questions or need further assistance, please feel free to contact our team. Thank you for considering {{ hotel_reserve_info.hotel_name }} Hotel, and we hope to have the opportunity to welcome you in the future.</p>
+{% endblock content %}
+    

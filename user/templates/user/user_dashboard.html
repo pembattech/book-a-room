@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ user }}'s Dashboard
+{% endblock title %}
+
+{% block content %}
+<div class="profile-wrapper">
+    <div class="profile-name">
+        {{ full_name }}
+    </div>
+</div>
+
+<div class="reservations">
+    <div class="heading">
+        <p>Reservation Record</p>
+    </div>
+    <div class="records">
+        <table>
+            <tr>
+                <th>Hotel</th>
+                <th>Check-In Date</th>
+                <th>Check-Out Date</th>
+                <th>Total Cost</th>
+                <th>Created At</th>
+            </tr>
+            {% for record in reservation_record %}
+            <tr>
+                <td>
+                    <a href="{% url 'hotel:hotel_detail' record.hotel.slug %}">
+                        {{ record.hotel }}
+                    </a>
+                </td>
+                <td>{{ record.check_in_date }}</td>
+                <td>{{ record.check_out_date }}</td>
+                <td>{{ record.total_cost }}</td>
+                <td>{{ record.created_at }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+</div>
+
+{% endblock content %}

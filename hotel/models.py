@@ -37,9 +37,10 @@ class HotelImage(models.Model):
 class Reservation(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE)
-    check_in_date = models.DateField()
-    check_out_date = models.DateField()
-    total_cost = models.DecimalField(max_digits=10, decimal_places=2)
+    check_in_date = models.DateField(null = True)
+    check_out_date = models.DateField(null = True)
+    total_cost = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    is_paid = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -47,7 +48,5 @@ class Reservation(models.Model):
 
     def calculate_total_cost(self):
         nights = (self.check_out_date - self.check_in_date).days
-
-        print(self.hotel.price, nights,  "==" , self.hotel.price * Decimal(nights))
 
         return self.hotel.price * Decimal(nights)

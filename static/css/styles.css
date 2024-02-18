@@ -283,3 +283,28 @@ a:hover {
 #reservation-form .button-style {
     width: 100%;
 }
+
+/* user dashboard */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.reservations .records {
+    text-align: left;
+}
+
+.reservations .records td {
+    width: 250px;
+}

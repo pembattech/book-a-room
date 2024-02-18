@@ -8,7 +8,7 @@ from hotel.models import Hotel
 # Create your views here.
 def home(request):
     if request.user.is_authenticated and request.user.is_corporate:
-        hotels = Hotel.objects.filter(hotelier__username = request.user.username)
+        hotels = Hotel.objects.filter(hotelier__username=request.user.username)
     else:
         hotels = Hotel.objects.all()
 
@@ -30,8 +30,8 @@ def register(request, user_type):
                 print(user_type)
 
             custom_user_form.save()
-            
-            return redirect('base:login')
+
+            return redirect("base:login")
 
     custom_user_form = CustomUserForm()
 
@@ -61,7 +61,12 @@ def login_user(request):
             if user is not None:
                 login(request, user)
 
-                return redirect("base:home")
+                # Redirect to the 'next' URL if available, otherwise go to 'home'
+                next_url = request.GET.get("next")
+                if next_url:
+                    return redirect(next_url)
+                else:
+                    return redirect("base:home")
             else:
                 return HttpResponse("Invalid credentials.")
         except Exception as e:

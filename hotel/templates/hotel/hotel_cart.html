@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<div class="reservations">
+    <div class="heading">
+        <p>Reservations</p>
+    </div>
+    <div class="records">
+        <table>
+            <tr>
+                <th>Hotel</th>
+                <th>Check-In Date</th>
+                <th>Check-Out Date</th>
+                <th>Total Cost</th>
+                <th>Created At</th>
+                <th>Action</th>
+            </tr>
+            {% if reservation_lst %}
+            {% for reservation in reservation_lst %}
+            <tr>
+                <td>
+                    <a href="{% url 'hotel:hotel_detail' reservation.hotel.slug %}">
+                        {{ reservation.hotel }}
+                    </a>
+                </td>
+                <td>{{ reservation.check_in_date }}</td>
+                <td>{{ reservation.check_out_date }}</td>
+                <td>{{ reservation.total_cost }}</td>
+                <td>{{ reservation.created_at }}</td>
+                <td>
+                    <a href="{% url 'payment_gateway:create-checkout-session-pk' reservation_pk=reservation.pk %}">
+                        <button class="button-style">Pay</button>
+                    </a>
+
+                    <button class="button-style">Cancel</button>
+                </td>
+            </tr>
+
+            {% endfor %}
+
+            {% else %}
+            <tr>
+                <td colspan="6">No reservation yet.</td>
+            </tr>
+
+            {% endif %}
+        </table>
+
+    </div>
+</div>
+{% endblock content %}

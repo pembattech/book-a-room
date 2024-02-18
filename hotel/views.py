@@ -7,7 +7,7 @@ from datetime import date, timedelta
 from django.db.models import Q
 from django.utils import timezone
 
-from .models import Hotel, HotelImage
+from .models import Hotel, HotelImage, Reservation
 from .forms import HotelForm, HotelImageFormSet, ReservationForm
 
 
@@ -47,32 +47,31 @@ def list_hotel(request):
 
 def hotel_detail(request, slug):
     hotel = get_object_or_404(Hotel, slug=slug)
-    hotelimage_instance = HotelImage.objects.filter(hotel__slug=slug)
-
-    image_urls = [image.hotel_images for image in hotelimage_instance]
-
-    TC_SESSION = f"total_cost_{request.user.username}_{slug}"
+    hotel_images = HotelImage.objects.filter(hotel=hotel)
+    image_urls = [image.hotel_images.url for image in hotel_images]
 
     if request.method == "POST":
         reservation_form = ReservationForm(request.POST)
-
+        # if reservation_form.is_valid() and request.is_authenticated():
         if reservation_form.is_valid():
-            total_cost = request.session.get(TC_SESSION, 0)
+            reservation = reservation_form.save(commit=False)
+            reservation.hotel = hotel
+            reservation.user = request.user  # Assign the current user
+            reservation.total_cost = (
+                reservation.calculate_total_cost()
+            )  # Calculate total cost
+            reservation.save()
+            
+            print(reservation.pk)
+            
+            pending_reservations = Reservation.objects.filter(user = request.user, hotel=hotel, is_paid=False)
+            if len(pending_reservations) > 1:
+                return redirect("hotel:hotel_cart")
 
-            check_out_date_data = reservation_form.cleaned_data["check_out_date"]
-
-            if total_cost == 0:
-                if (
-                    check_out_date_data == date.today()
-                    or check_out_date_data == date.today() + timedelta(days=1)
-                ):
-                    total_cost = hotel.price
-
-                    # Store the total cost in the user's session
-                    request.session[TC_SESSION] = total_cost
-
-            return redirect('payment_gateway:create-checkout-session', hotel.slug)
-
+            return redirect("payment_gateway:create-checkout-session-pk", reservation_pk = reservation.pk)
+        
+        # else:
+        #     return redirect()
     else:
         reservation_form = ReservationForm()
 
@@ -81,25 +80,24 @@ def hotel_detail(request, slug):
         "reservation_form": reservation_form,
         "image_urls": image_urls,
     }
-
     return render(request, "hotel/hotel_detail.html", context)
 
 
 @csrf_exempt
 @require_POST
-def update_total_cost(request, slug):
+def update_total_cost(request, slug=None, pk=None):
     form = ReservationForm(request.POST)
-
     if form.is_valid():
+        try:
+            reservation_hotel = Hotel.objects.get(slug=slug)
+        except Hotel.DoesNotExist:
+            return JsonResponse({"error": "Hotel does not exist."}, status=404)
+
         reservation = form.save(commit=False)
-        reservation.hotel = Hotel.objects.get(slug=slug)
+        reservation.hotel = reservation_hotel
+        tc = reservation.calculate_total_cost()
 
-        tc = float(reservation.calculate_total_cost())
-
-        TC_SESSION = f"total_cost_{request.user.username}_{slug}"
-
-        # Store the total cost in the user's session
-        request.session[TC_SESSION] = tc
+        reservation.total_cost = tc
 
         return JsonResponse({"total_cost": "{:.2f}".format(tc)})
     else:
@@ -141,6 +139,7 @@ def edit_hotel(request, slug):
 
     return render(request, "hotel/edit_hotel.html", context)
 
+
 @login_required(login_url="login")
 def delete_hotel(request, slug):
     hotel = get_object_or_404(Hotel, slug=slug)
@@ -167,3 +166,13 @@ def search_hotel(request):
     }
 
     return render(request, "hotel/search_result.html", context)
+
+
+def hotel_cart(request):
+    reservation_lst = Reservation.objects.filter(user=request.user, is_paid = False)
+
+    context = {
+        "reservation_lst": reservation_lst,
+    }
+
+    return render(request, "hotel/hotel_cart.html", context)
