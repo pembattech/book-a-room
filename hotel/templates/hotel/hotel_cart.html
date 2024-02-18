@@ -33,7 +33,9 @@
                         <button class="button-style">Pay</button>
                     </a>
 
-                    <button class="button-style">Cancel</button>
+                    <a href="{% url 'payment_gateway:payment_cancel' reservation_pk=reservation.pk %}">
+                        <button class="button-style">Cancel</button>
+                    </a>
                 </td>
             </tr>
 

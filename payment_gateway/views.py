@@ -29,7 +29,7 @@ def create_stripe_checkout_session(request, reservation_pk=None):
             line_items=[
                 {
                     "price_data": {
-                        "currency": "usd",
+                        "currency": "npr",
                         "unit_amount": unit_amount,
                         "product_data": {
                             "name": reservation_instance.hotel.name,
