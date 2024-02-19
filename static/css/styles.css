@@ -1,6 +1,6 @@
 * {
     font-family: 'Roboto', sans-serif;
-    color: #333;
+    color: #fff;
     line-height: 1.5;
     font-size: 16px;
 }
@@ -8,6 +8,7 @@
 body {
     margin: 0;
     padding: 0;
+    background-color: #131415;
 }
 
 input,
@@ -16,16 +17,19 @@ textarea,
 button {
     padding: 10px;
     margin: 5px 0;
-    border: 1px solid #ccc;
+    border: 1px solid #101111;
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 14px;
+    color: #131415;
 }
 
 /* Apply specific styles for buttons */
 button {
     background-color: #4CAF50;
     color: #fff;
+    font-size: 16px;
+    font-weight: 800;
     cursor: pointer;
 }
 
@@ -64,7 +68,7 @@ a {
 }
 
 a:hover {
-    color: #dbdbdb;
+    color: #adb0b1;
 }
 
 .search-bar {
@@ -83,13 +87,6 @@ a:hover {
 }
 
 
-.custom-hr {
-    height: 1px;
-    background-color: rgba(49, 49, 49, 0.5);
-    border: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
 .div-flex {
     display: flex;
     gap: 20px;
@@ -101,7 +98,7 @@ a:hover {
 }
 
 .heading {
-    color: #111;
+    color: #fff;
     font-size: 20px;
     font-weight: 900;
 }
@@ -161,21 +158,21 @@ a:hover {
     flex-direction: row;
     justify-content: space-between;
     padding: 18px 30px;
-    background-color: #fff;
+    background-color: #101111;
     text-align: center;
 }
 
 .navigation a {
-    color: #333;
+    color: #fff;
 }
 
 .navigation a:hover {
-    color: rgba(49, 49, 49, 0.61)
+    color: #adb0b1;
 }
 
 .container-wrapper {
     padding: 10px 30px;
-    height: 100vh;
+    background-color: #131415;
 }
 
 /* hotels */
@@ -199,6 +196,7 @@ a:hover {
 
 .hotel-info.description {
     font-size: 16px;
+    color: #adb0b1;
 }
 
 .hotel-card .hotel-pic img {
@@ -221,6 +219,11 @@ a:hover {
     top: 0;
     left: 0;
 }
+
+.hotel-cards .hotel-card:hover .hotel-detail .heading {
+    color: #adb0b1;
+}
+
 
 /* hotel details */
 
@@ -267,7 +270,7 @@ a:hover {
 
 #reservation-form .hotel-info.price,
 #reservation-form .hotel-info.price span {
-    color: #333;
+    color: #adb0b1;
     font-size: 24px;
     margin-bottom: 0;
 }
@@ -298,7 +301,7 @@ td {
 }
 
 th {
-    background-color: #f2f2f2;
+    background-color: #101111;
 }
 
 .reservations .records {

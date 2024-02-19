@@ -35,10 +35,14 @@
         </div>
         {% if not request.user.is_corporate %}
 
-        <form action="" method='post'
-            id="reservation-form">
+        <form action="" method='post' id="reservation-form">
             {% csrf_token %}
 
+            {% if not request.user.is_authenticated %}
+            <div class="login-msg">
+                <p style="color: red; font-weight: 700">{{ login_message }}</p>
+            </div>
+            {% endif %}
             <div class="form-div position-sticky" style="top: 80px;">
                 <div class="price-wrapper">
                     <p class="hotel-info price">
@@ -146,6 +150,11 @@
 
     });
 
+    // Disable the submit button when login message is displayed
+    if ($('.login-msg').length > 0) {
+        $('button.button-style').prop('disabled', true);
+
+    }
 </script>
 
 {% endblock content %}

@@ -52,7 +52,6 @@ def hotel_detail(request, slug):
 
     if request.method == "POST":
         reservation_form = ReservationForm(request.POST)
-        # if reservation_form.is_valid() and request.is_authenticated():
         if reservation_form.is_valid():
             reservation = reservation_form.save(commit=False)
             reservation.hotel = hotel
@@ -61,17 +60,13 @@ def hotel_detail(request, slug):
                 reservation.calculate_total_cost()
             )  # Calculate total cost
             reservation.save()
-            
-            print(reservation.pk)
-            
+
             pending_reservations = Reservation.objects.filter(user = request.user, hotel=hotel, is_paid=False)
             if len(pending_reservations) > 1:
                 return redirect("hotel:hotel_cart")
 
             return redirect("payment_gateway:create-checkout-session-pk", reservation_pk = reservation.pk)
         
-        # else:
-        #     return redirect()
     else:
         reservation_form = ReservationForm()
 
@@ -79,6 +74,7 @@ def hotel_detail(request, slug):
         "hotel": hotel,
         "reservation_form": reservation_form,
         "image_urls": image_urls,
+        "login_message": "Please log in to make a reservation",
     }
     return render(request, "hotel/hotel_detail.html", context)
 
@@ -143,11 +139,17 @@ def edit_hotel(request, slug):
 @login_required(login_url="login")
 def delete_hotel(request, slug):
     hotel = get_object_or_404(Hotel, slug=slug)
+    
+    hotel_name = hotel.name
 
     if request.user.is_corporate:
         hotel.delete()
 
-        return redirect("hotel:dashboard")
+        context = {
+            'hotel_name': hotel_name
+        }
+
+        return render(request, 'hotel/delete_hotel.html', context)
 
 
 def search_hotel(request):
