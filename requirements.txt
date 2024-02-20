@@ -3,7 +3,7 @@ bleach==4.1.0
 certifi==2024.2.2
 charset-normalizer==3.3.2
 cloudinary==1.38.0
-Django==5.0
+Django==4.2.2
 django-admin-thumbnails==0.2.8
 django-cloudinary-storage==0.3.0
 django-summernote==0.8.20.0
