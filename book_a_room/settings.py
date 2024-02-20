@@ -140,7 +140,7 @@ STATIC_URL = '/static/'
 if DEBUG == True:
     STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
-if DEBUG == False:
+elif DEBUG == False:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
