@@ -7,7 +7,7 @@ Django==4.2.2
 django-admin-thumbnails==0.2.8
 django-cloudinary-storage==0.3.0
 django-summernote==0.8.20.0
-django-tinymce==3.6.1k
+django-tinymce==3.6.1
 idna==3.6
 packaging==23.2
 Pillow==10.1.0
