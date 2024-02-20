@@ -21,6 +21,8 @@ from django.conf.urls.static import static
 from django.views.static import serve
 
 
+handler404 = 'base.views.error_404_view'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('base.urls')),

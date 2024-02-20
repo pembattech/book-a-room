@@ -5,7 +5,9 @@ from .forms import CustomUserForm
 from hotel.models import Hotel
 
 
-# Create your views here.
+def error_404_view(request, exception):
+    return render(request, 'custom_404.html', status=404)
+
 def home(request):
     if request.user.is_authenticated and request.user.is_corporate:
         hotels = Hotel.objects.filter(hotelier__username=request.user.username)
