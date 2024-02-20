@@ -7,6 +7,7 @@
     {% endif %}
 
     <ul class="div-flex">
+        {% if hotels %}
         {% for hotel in hotels %}
         <div class="hotel-card">
             <a href="{% url 'hotel:hotel_detail' hotel.slug %}">
@@ -35,6 +36,9 @@
             </a>
         </div>
         {% endfor %}
+        {% else %}
+        <p>Hotels not found.</p>
+        {% endif %}
     </ul>
 
 </div>
