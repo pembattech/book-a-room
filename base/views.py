@@ -33,7 +33,7 @@ def register(request, user_type):
 
             custom_user_form.save()
 
-            return redirect("base:login")
+            return redirect("base:login_user")
 
     custom_user_form = CustomUserForm()
 

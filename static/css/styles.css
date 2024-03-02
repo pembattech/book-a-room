@@ -24,6 +24,10 @@ button {
     color: #131415;
 }
 
+input {
+    background-color: #adb0b1;
+}
+
 /* Apply specific styles for buttons */
 button {
     background-color: #4CAF50;
