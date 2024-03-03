@@ -17,16 +17,19 @@ textarea,
 button {
     padding: 10px;
     margin: 5px 0;
-    border: 1px solid #101111;
-    border-radius: 4px;
+    border: 1px solid #2b3031;
+    border-radius: 5px;
     box-sizing: border-box;
     font-size: 14px;
     color: #131415;
+    background-color: #ff000000;
+    outline: none;
 }
 
-input {
-    background-color: #adb0b1;
+input:focus, select:focus, textarea:focus {
+    border-color: #666;
 }
+
 
 /* Apply specific styles for buttons */
 button {
@@ -79,7 +82,7 @@ a:hover {
     width: 300px;
     padding: 5px;
     margin: 0;
-    border: 1px solid rgba(49, 49, 49, 0.5);
+    border: 1px solid #2b3031;
     border-radius: 5px;
     outline: none;
     transition: width 0.5s ease;

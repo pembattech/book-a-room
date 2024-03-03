@@ -5,7 +5,7 @@
 <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
-    {{ hotel_form }}
+    {{ hotel_form.as_div }}
 
     <!-- Formset management form for handling hotel images -->
     {{ hotelimg_form.management_form }}

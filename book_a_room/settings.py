@@ -137,9 +137,8 @@ CLOUDINARY_STORAGE = {
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = '/static/'
-if DEBUG == True:
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
+# STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
@@ -173,7 +172,6 @@ SUMMERNOTE_CONFIG = {
         'fontSizes': ['8', '9', '10', '11', '12', '14', '16', '18', '24', '36'],
     },
 }
-
 
 # Stripe
 STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY')
