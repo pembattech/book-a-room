@@ -6,7 +6,7 @@
     <a href="{% url 'hotel:list_hotel' %}" style="color: #2196F3;">List Your Hotel</a>
     {% endif %}
 
-    <ul class="div-flex">
+    <ul class="div-flex" style="flex-wrap: wrap;">
         {% if hotels %}
         {% for hotel in hotels %}
         <div class="hotel-card">
