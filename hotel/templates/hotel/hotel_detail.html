@@ -10,10 +10,12 @@
 
 <div class="hotel-detail-wrapper">
 
-    <div class="hotel-pics">
+    <div class="hotel-pics div-flex">
         {% for img_url in image_urls %}
 
-        <img src="{{ img_url.url }}" alt="{{ hotel.name }}">
+        <div class="hotel-pic">
+            <img class="responsive-image" src="{{ img_url }}" alt="{{ hotel.name }}">
+        </div>
 
         {% endfor %}
 

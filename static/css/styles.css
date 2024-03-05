@@ -160,6 +160,13 @@ a:hover {
     }
 }
 
+.hotel-pic {
+    width: 400px;
+    height: 215px;
+    overflow: hidden;
+    position: relative;
+}
+
 .navigation {
     display: flex;
     flex-direction: row;
@@ -206,16 +213,8 @@ a:hover {
     color: #adb0b1;
 }
 
-.hotel-card .hotel-pic img {
-    width: 400px;
+.hotel-card .hotel-pic img, .hotel-detail-wrapper .hotel-pic img {
     border-radius: 10px;
-}
-
-.hotel-card .hotel-pic {
-    width: 400px;
-    height: 300px;
-    overflow: hidden;
-    position: relative;
 }
 
 .responsive-image {
@@ -240,16 +239,6 @@ a:hover {
 
 .hotel-detail-wrapper .info__booking {
     padding: 20px 80px 0;
-}
-
-.hotel-detail-wrapper .hotel-pics img {
-    width: 600px;
-}
-
-.hotel-detail-wrapper .hotel-pics {
-    display: flex;
-    overflow-x: auto;
-    gap: 5px;
 }
 
 .hotel-detail-wrapper .heading {

@@ -8,62 +8,64 @@
 
 {% block content %}
 
-<style>
-    .hotel-pic {
-        width: 400px;
-        height: 215px;
-        overflow: hidden;
-        position: relative;
-    }
-</style>
 <div class="hotel-cards">
+
     {% if request.user.is_corporate and hotels|length == 0 %}
     <div class="heading">
         <p>You haven' t listed any hotels yet.</p>
     </div>
     <a href="{% url 'hotel:list_hotel' %}" style="color: #2196F3;">List Your Hotel</a>
     {% endif %}
-
-    <ul>
-        <div class="div-flex">
-            {% for hotel in hotels %}
-            <div class="hotel-card">
-                <a href="{% url 'hotel:hotel_detail' hotel.slug %}">
-                    <li>
-
-                        <div class="hotel-pic">
-                            <img class="responsive-image" src="{{ hotel.hotelimage_set.all.first.hotel_images.url }}" alt="{{ hotel.name }}">
-                        </div>
-
-                        <div class="hotel-detail">
-
-                            <p class="heading">
-                                {{ hotel.name }}
-                            </p>
-                            <p class="hotel-info">
-                                {{ hotel.address }}
-                            </p>
-                            <p class="hotel-info">
-                                {{ hotel.description|safe }}
-                            </p>
-                            <p class="hotel-info price">
-                                <span>
-                                    NPR
-                                    {{ hotel.price }}
-                                </span>
-                            </p>
-
-                        </div>
-
-                        <a href="{% url 'hotel:update' hotel.slug %}"><button class="button-style">Edit</button></a>
-                        <a href="{% url 'hotel:delete' hotel.slug %}"><button class="button-style" style="background-color: #ba2121;">Delete</button></a>
-
-                    </li>
-                </a>
-            </div>
-            {% endfor %}
-        </div>
-    </ul>
-
 </div>
+
+<ul>
+    <div class="div-flex" style="flex-direction: column;">
+        {% for hotel in hotels %}
+
+        <div class="hotel-card">
+
+            <li>
+
+                <div class="hotel-pics div-flex">
+                    {% for hotel_img in hotel.hotelimage_set.all %}
+                    <div class="hotel-pic">
+                        <img class="responsive-image" src="{{ hotel_img.hotel_images.url }}" alt="{{ hotel.name }}">
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="hotel-detail">
+
+                    <p class="heading">
+                        {{ hotel.name }}
+                    </p>
+                    <p class="hotel-info">
+                        {{ hotel.address }}
+                    </p>
+                    <p class="hotel-info">
+                        {{ hotel.description|safe }}
+                    </p>
+                    <p class="hotel-info price">
+                        <span>
+                            NPR
+                            {{ hotel.price }}
+                        </span>
+                    </p>
+
+                </div>
+
+                <a href="{% url 'hotel:update' hotel.slug %}"><button class="button-style">Edit</button></a>
+                <a href="{% url 'hotel:delete' hotel.slug %}"><button class="button-style"
+                        style="background-color: #ba2121;">Delete</button></a>
+
+            </li>
+        </div>
+
+        {% endfor %}
+
+    </div>
+</ul>
+</div>
+
+
 {% endblock content %}
