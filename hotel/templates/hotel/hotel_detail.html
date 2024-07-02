@@ -40,11 +40,15 @@
         <form action="" method='post' id="reservation-form">
             {% csrf_token %}
 
+            <input type="hidden" name="is_authenticated" value="{{ request.user.is_authenticated }}">
+
             {% if not request.user.is_authenticated %}
             <div class="login-msg">
                 <p style="color: red; font-weight: 700">{{ login_message }}</p>
             </div>
+
             {% endif %}
+
             <div class="form-div position-sticky" style="top: 80px;">
                 <div class="price-wrapper">
                     <p class="hotel-info price">
@@ -124,6 +128,8 @@
 
             var url = '{% url "hotel:update_total_cost" hotel.slug %}';
 
+            var isAuthenticated = $('#reservation-form input[name="is_authenticated"]').val();
+
             $.ajax({
                 type: 'POST',
                 url: url,
@@ -136,7 +142,9 @@
 
                     $('#total-cost').text(data.total_cost);
 
-                    $('button.button-style').prop('disabled', false);
+                    if (isAuthenticated === "True") {
+                        $('button.button-style').prop('disabled', false);
+                    }
 
                 },
                 error: function (error) {
